@@ -1,14 +1,13 @@
-Analise
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl border border-gray-200">
     <!-- Logo da Empresa -->
-    <div class="flex justify-center mb-4">
-        <img src="Logo.jpg" alt="Logo da Empresa" class="h-16 w-auto">
-    </div>
+        <div class="flex justify-center mb-4">
+            <img src="Logo.jpg" alt="Logo da Empresa" class="h-16 w-auto">
+        </div>
     <title>Gerador de Relatório de Atividades - Time de Software</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -71,8 +70,9 @@ Analise
                 </div>
             </div>
 
-            <!-- Turno e Área Trabalhada -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Turno, Área Trabalhada e OP -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Turno -->
                 <div>
                     <label for="userShift" class="block text-sm font-medium text-gray-700 mb-1">Turno:</label>
                     <select id="userShift" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
@@ -83,9 +83,29 @@ Analise
                         <option value="Integral">Integral</option>
                     </select>
                 </div>
+
+                <!-- Área Trabalhada -->
                 <div>
                     <label for="workedArea" class="block text-sm font-medium text-gray-700 mb-1">Área Trabalhada:</label>
-                    <input type="text" id="workedArea" placeholder="Ex: Armação, Brancard, Soub, etc." class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                    <select id="workedArea"
+                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm
+                            focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        required>
+                        <option value="">Selecione a Área</option>
+                        <option value="Dorsal 1">Dorsal 1</option>
+                        <option value="Lateral 281">Lateral 281</option>
+                        <option value="Pavimento 281">Pavimento 281</option>
+                        <option value="Lateral X6H">Lateral X6H</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                </div>
+
+                <!-- Campo OP -->
+                <div>
+                    <label for="operationNumber" class="block text-sm font-medium text-gray-700 mb-1">OP:</label>
+                    <input type="text" id="operationNumber" placeholder="Ex: OP220" 
+                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm 
+                            focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
                 </div>
             </div>
 
@@ -152,16 +172,18 @@ Analise
             const userName = document.getElementById('userName').value;
             const userShift = document.getElementById('userShift').value;
             const workedArea = document.getElementById('workedArea').value.trim();
+            const operationNumber = document.getElementById('operationNumber').value.trim();
             const activitiesDone = document.getElementById('activitiesDone').value.trim();
             let pendingItems = document.getElementById('pendingItems').value.trim();
             const actionPlans = document.getElementById('actionPlans').value.trim();
             const observations = document.getElementById('observations').value.trim();
 
             // Validação básica dos campos obrigatórios
-            if (!reportDate || !userName || !userShift || !workedArea || !activitiesDone || !actionPlans) {
-                showMessage("Por favor, preencha todos os campos obrigatórios (Data, Nome, Turno, Área Trabalhada, Atividades Realizadas, Planos de Ação).", 'error');
+            if (!reportDate || !userName || !userShift || !workedArea || !operationNumber || !activitiesDone || !actionPlans) {
+                showMessage("Por favor, preencha todos os campos obrigatórios (Data, Nome, Turno, Área Trabalhada, OP, Atividades Realizadas, Planos de Ação).", 'error');
                 return;
             }
+
 
             // Formata a data para DD/MM/AAAA
             const [year, month, day] = reportDate.split('-');
@@ -180,6 +202,7 @@ Analise
 *Nome do Colaborador:* ${userName}
 *Turno:* ${userShift}
 *Área Trabalhada:* ${workedArea}
+*OP:* ${operationNumber}
 
 ---
 
