@@ -1,201 +1,234 @@
+Analise
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Relatório de Atividades - Time de Software</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      font-family: "Inter", sans-serif;
-      background-color: #f3f4f6;
-    }
-    textarea::placeholder { color: #9ca3af; }
-    input:focus, textarea:focus {
-      outline: none;
-      border-color: #6366f1;
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-    }
-    .message-box {
-      padding: 0.75rem 1rem;
-      border-radius: 0.375rem;
-      font-size: 0.875rem;
-      font-weight: 500;
-      text-align: center;
-      margin-top: 1rem;
-      transition: opacity 0.3s ease-in-out;
-    }
-    .message-box.success { background-color: #d1fae5; color: #065f46; }
-    .message-box.error { background-color: #fee2e2; color: #991b1b; }
-    .message-box.hidden { opacity: 0; height: 0; padding: 0; overflow: hidden; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Logo da Empresa -->
+    <div class="flex justify-center mb-4">
+        <img src="Logo.jpg" alt="Logo da Empresa" class="h-16 w-auto">
+    </div>
+    <title>Gerador de Relatório de Atividades - Time de Software</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Define a fonte Inter para todo o corpo, com fallback */
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: #f3f4f6; /* Cor de fundo suave */
+        }
+        /* Estilo para o placeholder do textarea */
+        textarea::placeholder {
+            color: #9ca3af; /* Cor cinza para o placeholder */
+        }
+        /* Estilo para focar nos inputs e textareas */
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #6366f1; /* Cor roxa ao focar */
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); /* Sombra suave ao focar */
+        }
+        /* Estilo para a mensagem de erro/sucesso */
+        .message-box {
+            padding: 0.75rem 1rem;
+            border-radius: 0.375rem; /* rounded-md */
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 500; /* font-medium */
+            text-align: center;
+            margin-top: 1rem;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .message-box.success {
+            background-color: #d1fae5; /* bg-green-100 */
+            color: #065f46; /* text-green-800 */
+        }
+        .message-box.error {
+            background-color: #fee2e2; /* bg-red-100 */
+            color: #991b1b; /* text-red-800 */
+        }
+        .message-box.hidden {
+            opacity: 0;
+            height: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body class="flex items-center justify-center min-h-screen p-4">
-  <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl border border-gray-200">
-    <!-- LOGO DA EMPRESA -->
-    <div class="flex justify-center mb-4">
-      <img src="Logo.jpg" alt="Logo da Empresa" class="h-16 w-auto">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl border border-gray-200">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">📝 Relatório de Atividades - Time de Software</h1>
+
+        <form id="reportForm" class="space-y-5">
+            <!-- Data e Nome -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="reportDate" class="block text-sm font-medium text-gray-700 mb-1">Data:</label>
+                    <input type="date" id="reportDate" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                </div>
+                <div>
+                    <label for="userName" class="block text-sm font-medium text-gray-700 mb-1">Nome do Colaborador:</label>
+                    <input type="text" id="userName" placeholder="Seu Nome Completo" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                </div>
+            </div>
+
+            <!-- Turno e Área Trabalhada -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="userShift" class="block text-sm font-medium text-gray-700 mb-1">Turno:</label>
+                    <select id="userShift" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                        <option value="">Selecione o Turno</option>
+                        <option value="Manhã">Manhã</option>
+                        <option value="Tarde">Tarde</option>
+                        <option value="Noite">Noite</option>
+                        <option value="Integral">Integral</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="workedArea" class="block text-sm font-medium text-gray-700 mb-1">Área Trabalhada:</label>
+                    <input type="text" id="workedArea" placeholder="Ex: Armação, Brancard, Soub, etc." class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                </div>
+            </div>
+
+            <!-- Atividades Realizadas -->
+            <div>
+                <label for="activitiesDone" class="block text-sm font-medium text-gray-700 mb-1">✅ Atividades Realizadas:</label>
+                <textarea id="activitiesDone" rows="5" placeholder="Liste as atividades concluídas no seu período." class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm resize-y" required></textarea>
+            </div>
+
+            <!-- Pendências -->
+            <div>
+                <label for="pendingItems" class="block text-sm font-medium text-gray-700 mb-1">⚠️ Pendências para o Próximo Turno/Dia:</label>
+                <textarea id="pendingItems" rows="4" placeholder="Liste tudo o que ficou incompleto ou precisa de continuidade. Se não houver, escreva 'Nenhuma pendência'." class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm resize-y"></textarea>
+            </div>
+
+            <!-- Planos de Ação (AGORA DEPOIS DE PENDÊNCIAS) -->
+            <div>
+                <label for="actionPlans" class="block text-sm font-medium text-gray-700 mb-1">➡️ Planos de Ação (Próximos Passos):</label>
+                <textarea id="actionPlans" rows="4" placeholder="Descreva as ações que você ou a equipe devem realizar a seguir, muitas vezes relacionadas às pendências." class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm resize-y" required></textarea>
+            </div>
+
+            <!-- Observações -->
+            <div>
+                <label for="observations" class="block text-sm font-medium text-gray-700 mb-1">💡 Observações / Destaques (Opcional):</label>
+                <textarea id="observations" rows="3" placeholder="Qualquer observação relevante, desafios, sucessos, sugestões." class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm resize-y"></textarea>
+            </div>
+
+            <!-- Botão de Gerar e Copiar -->
+            <button type="button" onclick="generateAndCopyReport()" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out transform hover:scale-105">
+                Gerar e Copiar Relatório para WhatsApp
+            </button>
+
+            <!-- Mensagem de Confirmação/Erro -->
+            <div id="messageBox" class="message-box hidden" role="alert"></div>
+        </form>
     </div>
 
-    <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">
-      📝 Relatório de Atividades - Time de Software
-    </h1>
+    <script>
+        // Função para exibir mensagens na tela
+        function showMessage(message, type = 'success') {
+            const messageBox = document.getElementById('messageBox');
+            messageBox.textContent = message;
+            messageBox.className = 'message-box'; // Reset classes
+            messageBox.classList.add(type);
+            messageBox.classList.remove('hidden');
 
-    <form id="reportForm" class="space-y-5">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label for="reportDate" class="block text-sm font-medium text-gray-700 mb-1">Data:</label>
-          <input type="date" id="reportDate" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md" required>
-        </div>
-        <div>
-          <label for="userName" class="block text-sm font-medium text-gray-700 mb-1">Nome do Colaborador:</label>
-          <input type="text" id="userName" placeholder="Seu Nome Completo" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md" required>
-        </div>
-      </div>
+            setTimeout(() => {
+                messageBox.classList.add('hidden');
+            }, 3000); // Esconde a mensagem após 3 segundos
+        }
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label for="userShift" class="block text-sm font-medium text-gray-700 mb-1">Turno:</label>
-          <select id="userShift" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md" required>
-            <option value="">Selecione o Turno</option>
-            <option value="Manhã">Manhã</option>
-            <option value="Tarde">Tarde</option>
-            <option value="Noite">Noite</option>
-            <option value="Integral">Integral</option>
-          </select>
-        </div>
-        <div>
-          <label for="workedArea" class="block text-sm font-medium text-gray-700 mb-1">Área Trabalhada:</label>
-          <input type="text" id="workedArea" placeholder="Ex: Armação, Brancard, Soub, etc." class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md" required>
-        </div>
-      </div>
+        // Define a data atual como valor padrão no campo de data
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0'); // Mês é 0-indexed
+            const day = String(today.getDate()).padStart(2, '0');
+            document.getElementById('reportDate').value = `${year}-${month}-${day}`;
+        });
 
-      <div>
-        <label for="activitiesDone" class="block text-sm font-medium text-gray-700 mb-1">✅ Atividades Realizadas:</label>
-        <textarea id="activitiesDone" rows="5" placeholder="Liste as atividades concluídas." class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md resize-y" required></textarea>
-      </div>
+        function generateAndCopyReport() {
+            // Coleta os valores dos campos do formulário
+            const reportDate = document.getElementById('reportDate').value;
+            const userName = document.getElementById('userName').value;
+            const userShift = document.getElementById('userShift').value;
+            const workedArea = document.getElementById('workedArea').value.trim();
+            const activitiesDone = document.getElementById('activitiesDone').value.trim();
+            let pendingItems = document.getElementById('pendingItems').value.trim();
+            const actionPlans = document.getElementById('actionPlans').value.trim();
+            const observations = document.getElementById('observations').value.trim();
 
-      <div>
-        <label for="pendingItems" class="block text-sm font-medium text-gray-700 mb-1">⚠️ Pendências:</label>
-        <textarea id="pendingItems" rows="4" placeholder="Pendências ou 'Nenhuma'." class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md resize-y"></textarea>
-      </div>
+            // Validação básica dos campos obrigatórios
+            if (!reportDate || !userName || !userShift || !workedArea || !activitiesDone || !actionPlans) {
+                showMessage("Por favor, preencha todos os campos obrigatórios (Data, Nome, Turno, Área Trabalhada, Atividades Realizadas, Planos de Ação).", 'error');
+                return;
+            }
 
-      <div>
-        <label for="actionPlans" class="block text-sm font-medium text-gray-700 mb-1">➡️ Planos de Ação:</label>
-        <textarea id="actionPlans" rows="4" placeholder="Descreva os próximos passos." class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md resize-y" required></textarea>
-      </div>
+            // Formata a data para DD/MM/AAAA
+            const [year, month, day] = reportDate.split('-');
+            const formattedDate = `${day}/${month}/${year}`;
 
-      <div>
-        <label for="observations" class="block text-sm font-medium text-gray-700 mb-1">💡 Observações (opcional):</label>
-        <textarea id="observations" rows="3" placeholder="Desafios, sucessos, sugestões..." class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md resize-y"></textarea>
-      </div>
+            // Se não houver pendências, define a mensagem padrão
+            if (pendingItems === "") {
+                pendingItems = "Nenhuma pendência.";
+            }
 
-      <button type="button" onclick="generateAndCopyReport()" class="w-full flex justify-center py-3 px-4 rounded-md text-lg font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition transform hover:scale-105">
-        Gerar, Copiar e Enviar
-      </button>
-
-      <div id="messageBox" class="message-box hidden" role="alert"></div>
-    </form>
-  </div>
-
-  <script>
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbziYl6HdnAR17kxFsPBAyVl0sXA9e3W4rYaGG4h5lkDxH2NQN9lx_13nK7rqSkkdZjAPQ/exec";
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const today = new Date();
-      const y = today.getFullYear();
-      const m = String(today.getMonth() + 1).padStart(2, '0');
-      const d = String(today.getDate()).padStart(2, '0');
-      document.getElementById('reportDate').value = `${y}-${m}-${d}`;
-    });
-
-    function showMessage(msg, type = 'success') {
-      const box = document.getElementById('messageBox');
-      box.textContent = msg;
-      box.className = `message-box ${type}`;
-      setTimeout(() => box.classList.add('hidden'), 3000);
-    }
-
-    async function generateAndCopyReport() {
-      const reportDate = document.getElementById('reportDate').value;
-      const userName = document.getElementById('userName').value;
-      const userShift = document.getElementById('userShift').value;
-      const workedArea = document.getElementById('workedArea').value.trim();
-      const activitiesDone = document.getElementById('activitiesDone').value.trim();
-      let pendingItems = document.getElementById('pendingItems').value.trim();
-      const actionPlans = document.getElementById('actionPlans').value.trim();
-      const observations = document.getElementById('observations').value.trim();
-
-      if (!reportDate || !userName || !userShift || !workedArea || !activitiesDone || !actionPlans) {
-        showMessage("Preencha todos os campos obrigatórios.", "error");
-        return;
-      }
-
-      if (pendingItems === "") pendingItems = "Nenhuma pendência.";
-
-      const [y, m, d] = reportDate.split("-");
-      const formattedDate = `${d}/${m}/${y}`;
-
-      const reportText = `
+            // Constrói o texto do relatório no formato desejado com a nova ordem
+            const reportText = `
 📝 *RELATÓRIO DE ATIVIDADES - TIME DE SOFTWARE*
 
 *Data:* ${formattedDate}
-*Colaborador:* ${userName}
+*Nome do Colaborador:* ${userName}
 *Turno:* ${userShift}
-*Área:* ${workedArea}
+*Área Trabalhada:* ${workedArea}
 
-✅ *Atividades Realizadas:*
-${activitiesDone.split('\n').map(l => `• ${l.trim()}`).join('\n')}
+---
 
-⚠️ *Pendências:*
-${pendingItems.split('\n').map(l => `• ${l.trim()}`).join('\n')}
+✅ *1. Atividades Realizadas:*
+${activitiesDone.split('\n').map(line => `* ${line.trim()}`).join('\n')}
 
-➡️ *Planos de Ação:*
-${actionPlans.split('\n').map(l => `• ${l.trim()}`).join('\n')}
+---
 
-${observations ? `💡 *Observações:* ${observations}` : ""}
-`;
+⚠️ *2. Pendências para o Próximo Turno/Dia:*
+${pendingItems.split('\n').map(line => `* ${line.trim()}`).join('\n')}
 
-      try {
-        await navigator.clipboard.writeText(reportText);
+---
 
-        // Monta os parâmetros em formato URL-encoded (sem JSON)
-        const params = new URLSearchParams();
-        params.append('data', formattedDate);
-        params.append('colaborador', userName);
-        params.append('turno', userShift);
-        params.append('area', workedArea);
-        params.append('atividades', activitiesDone);
-        params.append('pendencias', pendingItems);
-        params.append('planos', actionPlans);
-        params.append('observacoes', observations);
+➡️ *3. Planos de Ação (Próximos Passos):*
+${actionPlans.split('\n').map(line => `* ${line.trim()}`).join('\n')}
 
-        // Envia para o Google Sheets (sem preflight)
-        const response = await fetch(GOOGLE_SCRIPT_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-          },
-          body: params.toString()
-        });
+---
 
-        const text = await response.text();
-        let json = null;
-        try { json = JSON.parse(text); } catch(e) {}
+${observations ? `💡 *4. Observações / Destaques:*\n${observations}\n\n---` : ''}
 
-        if (response.ok && json && json.success) {
-          showMessage("Relatório copiado e enviado para planilha!", "success");
-        } else {
-          showMessage("Erro ao salvar na planilha.", "error");
-          console.error("Resposta inválida:", text);
+_Relatório gerado automaticamente._
+            `.trim(); // Remove espaços em branco extras no início/fim
+
+            // Copia o texto para a área de transferência
+            const textarea = document.createElement('textarea');
+            textarea.value = reportText;
+            textarea.style.position = 'fixed'; // Evita que o textarea apareça na tela
+            textarea.style.opacity = 0;
+            textarea.style.left = '-9999px'; // Move para fora da tela
+            textarea.style.top = '-9999px';
+            document.body.appendChild(textarea);
+
+            textarea.focus();
+            textarea.select();
+
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showMessage("Relatório copiado para a área de transferência!", 'success');
+                } else {
+                    showMessage("Não foi possível copiar automaticamente. Por favor, copie o texto abaixo manualmente.", 'error');
+                }
+            } catch (err) {
+                console.error('Oops, não foi possível copiar', err);
+                showMessage("Erro ao copiar. Por favor, copie o texto abaixo manualmente.", 'error');
+            } finally {
+                document.body.removeChild(textarea);
+            }
         }
-
-      } catch (err) {
-        console.error("Erro:", err);
-        showMessage("Erro ao copiar ou enviar.", "error");
-      }
-    }
-  </script>
+    </script>
 </body>
 </html>
-
