@@ -158,31 +158,43 @@ ${observations ? `💡 *Observações:* ${observations}` : ""}
 
       try {
         await navigator.clipboard.writeText(reportText);
-        showMessage("Relatório copiado e enviado para planilha!", "success");
 
-        // Envia para o Google Sheets
-        await fetch(GOOGLE_SCRIPT_URL, {
+        // Monta os parâmetros em formato URL-encoded (sem JSON)
+        const params = new URLSearchParams();
+        params.append('data', formattedDate);
+        params.append('colaborador', userName);
+        params.append('turno', userShift);
+        params.append('area', workedArea);
+        params.append('atividades', activitiesDone);
+        params.append('pendencias', pendingItems);
+        params.append('planos', actionPlans);
+        params.append('observacoes', observations);
+
+        // Envia para o Google Sheets (sem preflight)
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            data: formattedDate,
-            colaborador: userName,
-            turno: userShift,
-            area: workedArea,
-            atividades: activitiesDone,
-            pendencias: pendingItems,
-            planos: actionPlans,
-            observacoes: observations
-          })
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+          },
+          body: params.toString()
         });
 
+        const text = await response.text();
+        let json = null;
+        try { json = JSON.parse(text); } catch(e) {}
+
+        if (response.ok && json && json.success) {
+          showMessage("Relatório copiado e enviado para planilha!", "success");
+        } else {
+          showMessage("Erro ao salvar na planilha.", "error");
+          console.error("Resposta inválida:", text);
+        }
+
       } catch (err) {
+        console.error("Erro:", err);
         showMessage("Erro ao copiar ou enviar.", "error");
       }
     }
   </script>
 </body>
-
 </html>
-
-
